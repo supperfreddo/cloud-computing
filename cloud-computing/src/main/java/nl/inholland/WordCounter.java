@@ -1,3 +1,5 @@
+package nl.inholland;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,21 +9,25 @@ import java.util.Map;
 
 public class WordCounter {
     private Map<String, Integer> wordCounts;
-
+    
     public WordCounter() {
         wordCounts = new HashMap<>();
+        readData();
     }
 
     public void countWordsInFile(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                // Split line into words
                 String[] words = line.split("\\s+");
                 for (String word : words) {
+                    // Add word to wordCounts
                     wordCounts.put(word, wordCounts.getOrDefault(word, 0) + 1);
                 }
             }
         } catch (IOException e) {
+            // Display error message
             System.err.println("Error reading file: " + file.getName());
         }
     }
@@ -30,28 +36,29 @@ public class WordCounter {
         return wordCounts;
     }
 
-    public static void main(String[] args) {
-        String folderPath = "data/"; // Replace with the actual folder path
+    public void readData() {
+        // Init folder path
+        String folderPath = "data/";
 
-        WordCounter wordCounter = new WordCounter();
-
+        // Get folders from folderPath
         File folder = new File(folderPath);
         if (folder.isDirectory()) {
+            // Get files from folder
             File[] files = folder.listFiles();
             if (files != null) {
                 for (File file : files) {
                     if (file.isFile()) {
-                        wordCounter.countWordsInFile(file);
+                        countWordsInFile(file);
                     }
                 }
             }
 
             // Display word counts
-            Map<String, Integer> wordCounts = wordCounter.getWordCounts();
             for (Map.Entry<String, Integer> entry : wordCounts.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue());
             }
         } else {
+            // Display error message
             System.err.println("Invalid folder path.");
         }
     }
