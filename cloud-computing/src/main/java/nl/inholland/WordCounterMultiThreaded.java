@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -82,5 +86,22 @@ public class WordCounterMultiThreaded {
             // Display error message
             System.err.println("Invalid folder path.");
         }
+    }
+
+    public void shuffleWordCounts() {
+        // Get all the entries in the map into a list
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(wordCounts.entrySet());
+
+        // Shuffle the list
+        Collections.shuffle(entries);
+
+        // Insert them all into a LinkedHashMap
+        Map<String, Integer> shuffledWordCounts = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : entries) {
+            shuffledWordCounts.put(entry.getKey(), entry.getValue());
+        }
+
+        // Set wordCounts to the shuffled word counts
+        wordCounts = new ConcurrentHashMap<>(shuffledWordCounts);
     }
 }
