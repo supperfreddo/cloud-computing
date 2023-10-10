@@ -97,9 +97,8 @@ public class WordCounterTest {
 
         // Verify that at least one entry has changed position (indicating shuffling)
         for (int i = 0; i < originalEntries.size(); i++) {
-            if (!originalEntries.get(i).equals(shuffledEntries.get(i))) {
+            if (!originalEntries.get(i).equals(shuffledEntries.get(i)))
                 return true;
-            }
         }
 
         return false;

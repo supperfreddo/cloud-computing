@@ -40,7 +40,7 @@ public class WordCounter {
         return wordCounts;
     }
 
-    public void readData() {
+    private void readData() {
         // Init folder path
         String folderPath = "data/";
 

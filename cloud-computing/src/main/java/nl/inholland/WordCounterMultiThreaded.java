@@ -43,7 +43,7 @@ public class WordCounterMultiThreaded {
         return wordCounts;
     }
 
-    public void readData() {
+    private void readData() {
         // Init folder path
         String folderPath = "data/"; // Replace with the actual folder path
 
