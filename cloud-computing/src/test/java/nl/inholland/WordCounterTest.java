@@ -69,27 +69,12 @@ public class WordCounterTest {
         // Get shuffled word counts
         Map<String, Integer> shuffledWordCounts = wordCounter.getWordCounts();
 
-        // Convert map entries to a list for easier comparison by index
-        List<Map.Entry<String, Integer>> originalEntries = new ArrayList<>(wordCounts.entrySet());
-        List<Map.Entry<String, Integer>> shuffledEntries = new ArrayList<>(shuffledWordCounts.entrySet());
-
-        // Track if at least one entry has changed position
-        boolean atLeastOneEntryChanged = false;
-
-        // Verify that at least one entry has changed position (indicating shuffling)
-        for (int i = 0; i < originalEntries.size(); i++) {
-            if (!originalEntries.get(i).equals(shuffledEntries.get(i))) {
-                atLeastOneEntryChanged = true;
-                break;
-            }
-        }
-
-        assertTrue(atLeastOneEntryChanged);
+        assertTrue(checkShuffled(wordCounts, shuffledWordCounts));
     }
 
     // Test that word count multi threaded is shuffled
     @Test
-    public void isWordCountsMultiThreadedShuffled(){
+    public void isWordCountsMultiThreadedShuffled() {
         // Init word counter
         WordCounterMultiThreaded wordCounterMultiThreaded = new WordCounterMultiThreaded();
 
@@ -102,21 +87,21 @@ public class WordCounterTest {
         // Get shuffled word counts
         Map<String, Integer> shuffledWordCounts = wordCounterMultiThreaded.getWordCounts();
 
-        // Convert map entries to a list for easier comparison by index
-        List<Map.Entry<String, Integer>> originalEntries = new ArrayList<>(wordCounts.entrySet());
-        List<Map.Entry<String, Integer>> shuffledEntries = new ArrayList<>(shuffledWordCounts.entrySet());
+        assertTrue(checkShuffled(wordCounts, shuffledWordCounts));
+    }
 
-        // Track if at least one entry has changed position
-        boolean atLeastOneEntryChanged = false;
+    private boolean checkShuffled(Map<String, Integer> originalMap, Map<String, Integer> shuffledMap) {
+        // Convert map entries to a list for easier comparison by index
+        List<Map.Entry<String, Integer>> originalEntries = new ArrayList<>(originalMap.entrySet());
+        List<Map.Entry<String, Integer>> shuffledEntries = new ArrayList<>(shuffledMap.entrySet());
 
         // Verify that at least one entry has changed position (indicating shuffling)
         for (int i = 0; i < originalEntries.size(); i++) {
             if (!originalEntries.get(i).equals(shuffledEntries.get(i))) {
-                atLeastOneEntryChanged = true;
-                break;
+                return true;
             }
         }
 
-        assertTrue(atLeastOneEntryChanged);
+        return false;
     }
 }
